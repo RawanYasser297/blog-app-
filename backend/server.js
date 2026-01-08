@@ -5,7 +5,12 @@ import { Readability } from "@mozilla/readability";
 import cors from "cors";
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: ["https://blog-app-three-silk.vercel.app/"],
+    credentials: true,
+  })
+);
 
 app.get("/article", async (req, res) => {
   const { url } = req.query;
