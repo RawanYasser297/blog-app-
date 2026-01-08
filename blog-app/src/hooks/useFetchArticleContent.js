@@ -16,7 +16,7 @@ const useFetchArticleContent = (article) => {
 
       try {
         const res = await fetch(
-          `http://localhost:5000/article?url=${encodeURIComponent(article.url)}`
+          `https://blog-app-1-i897.onrender.com/article?url=${encodeURIComponent(article.url)}`
         );
 
 
