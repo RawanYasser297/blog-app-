@@ -1,4 +1,4 @@
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 
 export const useFetchArticles = () => {
   const [articles, setArticles] = useState([]);
@@ -7,29 +7,31 @@ export const useFetchArticles = () => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
-
-
   useEffect(() => {
     const controller = new AbortController();
 
     const fetchArticles = async () => {
       setLoading(true);
+      setError(null);
 
       try {
         const res = await fetch(
-          `https://newsapi.org/v2/top-headlines?country=us&page=${page}&pageSize=6&apikey=${
-            import.meta.env.VITE_NEWS_API_KEY
-          }`,
+          `${import.meta.env.VITE_API_URL}/news?page=${page}`,
           { signal: controller.signal }
         );
 
-        const data = await res.json();
-        console.log(data);
-        if (data.articles?.length === 0) {
-          setHasMore(false);
-        } else {
-          setArticles((prev) => [...prev, ...data.articles]);
+        if (!res.ok) {
+          throw new Error("Request failed");
         }
+
+        const data = await res.json();
+
+        if (!Array.isArray(data.articles) || data.articles.length === 0) {
+          setHasMore(false);
+          return;
+        }
+
+        setArticles((prev) => [...prev, ...data.articles]);
       } catch (err) {
         if (err.name !== "AbortError") {
           setError("Failed to load articles");
@@ -38,10 +40,10 @@ export const useFetchArticles = () => {
         setLoading(false);
       }
     };
+
     fetchArticles();
-    return () => {
-      controller.abort();
-    };
+
+    return () => controller.abort();
   }, [page]);
 
   return {

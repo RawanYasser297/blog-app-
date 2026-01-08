@@ -5,9 +5,12 @@ import { Readability } from "@mozilla/readability";
 import cors from "cors";
 
 const app = express();
+
+app.use(express.json());
+
 app.use(
   cors({
-    origin: ["https://blog-app-three-silk.vercel.app/"],
+    origin: ["https://blog-app-three-silk.vercel.app"],
     credentials: true,
   })
 );
@@ -21,9 +24,7 @@ app.get("/article", async (req, res) => {
 
   try {
     const response = await fetch(url, {
-      headers: {
-        "User-Agent": "Mozilla/5.0",
-      },
+      headers: { "User-Agent": "Mozilla/5.0" },
     });
 
     const html = await response.text();
@@ -46,6 +47,27 @@ app.get("/article", async (req, res) => {
   }
 });
 
-app.listen(5000, () => {
-  console.log("✅ Backend running at http://localhost:5000");
+
+app.get("/news", async (req, res) => {
+  try {
+    const { page = 1 } = req.query;
+
+    const response = await fetch(
+      `https://newsapi.org/v2/top-headlines?country=us&page=${page}&pageSize=6&apiKey=${process.env.NEWS_API_KEY}`
+    );
+
+    const data = await response.json();
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch news" });
+  }
+});
+
+app.get("/", (req, res) => {
+  res.send("✅ API is running");
+});
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`✅ Backend running on port ${PORT}`);
 });
