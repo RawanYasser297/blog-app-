@@ -32,3 +32,8 @@ The app displays articles, detects categories, shows article details, and uses s
 - Clean UI with Tailwind CSS
 - REST API backend
 
+---
+
+## Live demo
+Visit the live version: https://blog-app-three-silk.vercel.app/
+
