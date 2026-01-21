@@ -1,7 +1,7 @@
 import { useState } from "react";
 import BlogGrid from "../components/BlogGrid";
 import Container from "../components/Container";
-import CountriesSelector from "../components/countriesSelector";
+import CountriesSelector from "../components/CountriesSelector";
 import CategoriesSelector from "./../components/CategoriesSelector";
 
 const Home = () => {
