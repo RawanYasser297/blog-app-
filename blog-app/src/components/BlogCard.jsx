@@ -1,12 +1,9 @@
-import useFetchCategory from "../hooks/useFetchCategory";
 
 
-const BlogCard = ({ image , title,description, author, date, avatar}) => {
-  const {category}=useFetchCategory(title,description,avatar)
+const BlogCard = ({ image , title , author, date, avatar,sourceName}) => {
   return (
-    <div className="max-w-98 h-122  rounded-xl border border-gray-200 bg-white shadow-sm transition hover:shadow-md">
-      {/* Image */}
-      <div className="max-w-90 w-[90%] h-60 overflow-hidden rounded-t-xl mx-auto py-4 ">
+    <div className="w-full md:max-w-98 h-122  rounded-xl border border-gray-200 bg-white shadow-sm transition hover:shadow-md">
+      <div className="  md:max-w-90 w-[90%] h-60 overflow-hidden rounded-t-xl mx-auto py-4 ">
         <img
           src={image}
           alt={title}
@@ -18,15 +15,13 @@ const BlogCard = ({ image , title,description, author, date, avatar}) => {
       <div className="p-4 h-50">
         {/* Category */}
         <span className="text-sm font-medium text-[#4B6BFB] bg-indigo-100 p-1.5  rounded-md" >
-          {category}
+          {sourceName}
         </span>
 
-        {/* Title */}
         <h3 className="mt-6 h-3/5 line-clamp-2 text-2xl font-semibold text-gray-900">
           {title}
         </h3>
 
-        {/* Author */}
         <div className="mt-4 flex items-center gap-3 w-11/12 ">
           <img
             src={avatar}

@@ -11,16 +11,13 @@ const useFetchArticleContent = (article) => {
 
     const fetchData = async () => {
       setLoading(true);
-      setMessage(null);
+      setMessage('');
       setContent('');
 
       try {
         const res = await fetch(
-          `https://blog-app-1-i897.onrender.com/article?url=${encodeURIComponent(article.url)}`
+          `${import.meta.env.VITE_API_URL}/article?url=${encodeURIComponent(article.url)}`
         );
-
-
-       
 
         
         if (!res.ok) {

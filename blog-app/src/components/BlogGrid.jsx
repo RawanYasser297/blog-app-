@@ -3,9 +3,10 @@ import { useFetchArticles } from "../hooks/useFetchArticles";
 import { Link } from "react-router-dom";
 
 
-const BlogGrid = ({ search }) => {
+const BlogGrid = ({ selectedCountry,selectedCategory }) => {
+  console.log(selectedCategory,selectedCountry)
   const { articles, loading, error, hasMore, loadMore} =
-    useFetchArticles(search);
+    useFetchArticles(selectedCountry,selectedCategory);
 
   if (loading) {
     return (
@@ -45,6 +46,7 @@ const BlogGrid = ({ search }) => {
                 year: "numeric",
               })}
               avatar={`https://i.pravatar.cc/40?img=${i + 1}`}
+              sourceName={article.source.name}
             />
           </Link>
         ))}

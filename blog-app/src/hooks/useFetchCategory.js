@@ -5,8 +5,9 @@ const CATEGORY_KEYWORDS = {
   sports: ["football", "NBA", "FIFA", "match"],
   health: ["health", "medical", "disease",'hospital','doctors'],
   entertainment: ["movie", "music", "TV", "celebrity"],
+  science:['lab'],
 };
-
+// general 
 const useFetchCategory = (title,description) => {
   const [category, setCategory] = useState('')
 

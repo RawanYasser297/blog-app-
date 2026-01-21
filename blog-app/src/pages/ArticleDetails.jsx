@@ -1,20 +1,12 @@
 import { useLocation } from "react-router-dom";
 import Container from "../components/Container";
 import ArticleDetailsSkeleton from "./../components/ArticleDetailsSkeleton";
-import useFetchCategory from "../hooks/useFetchCategory";
 import useFetchArticleContent from "../hooks/useFetchArticleContent";
 
 const ArticleDetails = () => {
   const { state } = useLocation();
   const { article} = state;
-  const { category } = useFetchCategory(article.title, article.description);
-  const { loading, content, message } = useFetchArticleContent(article);
-console.log(state)
-
-
-
-
-  
+  const { loading, content, message } = useFetchArticleContent(article)
 
   if (!article) {
     return (
@@ -41,7 +33,7 @@ console.log(state)
         ) : (
           <article className="mx-auto max-w-3xl">
             <span className="text-sm font-medium text-[#4B6BFB] bg-indigo-100 p-1.5  rounded-md  mb-4">
-              {category}
+              {article.source.name}
             </span>
             <h1 className="mt-2 text-3xl font-bold text-gray-900 mb-5">
               {article.title}

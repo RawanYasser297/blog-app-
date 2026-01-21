@@ -1,11 +1,19 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { searchContext } from "../context/searchContext";
 
-export const useFetchArticles = () => {
+export const useFetchArticles = (selectedCountry,selectedCategory) => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const {search}=useContext(searchContext)
+  
+  useEffect(() => {
+    setArticles([]);
+    setPage(1);
+    setHasMore(true);
+  }, [selectedCountry, selectedCategory,search]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -16,8 +24,8 @@ export const useFetchArticles = () => {
 
       try {
         const res = await fetch(
-          `${import.meta.env.VITE_API_URL}/news?page=${page}`,
-          { signal: controller.signal }
+          `${import.meta.env.VITE_API_URL}/news?q=${search}&country=${selectedCountry}&category=${selectedCategory}&page=${page}`,
+          { signal: controller.signal, credentials: "include" },
         );
 
         if (!res.ok) {
@@ -28,6 +36,7 @@ export const useFetchArticles = () => {
 
         if (!Array.isArray(data.articles) || data.articles.length === 0) {
           setHasMore(false);
+          setError(`No Articles Found from ${selectedCountry} in ${selectedCategory}`);
           return;
         }
 
@@ -44,8 +53,9 @@ export const useFetchArticles = () => {
     fetchArticles();
 
     return () => controller.abort();
-  }, [page]);
+  }, [page, selectedCategory, selectedCountry,search]);
 
+  console.log(articles)
   return {
     articles,
     loading,
