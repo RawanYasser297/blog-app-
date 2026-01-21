@@ -50,10 +50,11 @@ app.get("/article", async (req, res) => {
 
 app.get("/news", async (req, res) => {
   try {
-    const { page = 1 } = req.query;
+  const { page = 1,country='us',category='general',q=''} = req.query;
+    
 
     const response = await fetch(
-      `https://newsapi.org/v2/top-headlines?country=us&page=${page}&pageSize=6&apiKey=${process.env.NEWS_API_KEY}`
+      `https://newsapi.org/v2/top-headlines?q=${q}&country=${country}&category=${category}&page=${page}&pageSize=6&apiKey=b019b07662d84083b6720459b27e7785`,
     );
 
     const data = await response.json();
