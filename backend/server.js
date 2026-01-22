@@ -3,6 +3,9 @@ import fetch from "node-fetch";
 import { JSDOM } from "jsdom";
 import { Readability } from "@mozilla/readability";
 import cors from "cors";
+import dotenv from "dotenv";
+import { env } from "node:process";
+dotenv.config();
 
 const app = express();
 
@@ -10,10 +13,13 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: ["https://blog-app-three-silk.vercel.app"],
+    origin:[env.CLIENT_URL],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
-  })
+  }),
 );
+
 
 app.get("/article", async (req, res) => {
   const { url } = req.query;
@@ -37,6 +43,7 @@ app.get("/article", async (req, res) => {
       return res.status(500).json({ error: "Failed to parse article" });
     }
 
+
     res.json({
       title: article.title,
       content: article.textContent,
@@ -48,9 +55,12 @@ app.get("/article", async (req, res) => {
 });
 
 
+
+
+
 app.get("/news", async (req, res) => {
   try {
-  const { page = 1,country='us',category='general',q=''} = req.query;
+    const { page = 1,country='us',category='general',q=''} = req.query;
     
 
     const response = await fetch(
